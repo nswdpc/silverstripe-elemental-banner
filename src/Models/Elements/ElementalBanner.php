@@ -66,7 +66,7 @@ class ElementBanner extends ElementContent
     {
 
         $this->beforeUpdateCMSFields(function ($fields) {
-            $fields->removeByName(['FeatureLinkID']);
+            $fields->removeByName(['BannerLinkID']);
             $fields->addFieldsToTab("Root.Main", [
                 UploadField::create(
                     "Image",
