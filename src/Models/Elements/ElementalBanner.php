@@ -1,17 +1,18 @@
 <?php
 namespace NSWDPC\Elemental\Models\Banner;
 
-use DNADesign\Elemental\Models\ElementContent;
+use DNADesign\Elemental\Models\BaseElement;
 use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\Assets\Image;
 use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use gorriecoe\Link\Models\Link;
 use NSWDPC\InlineLinker\InlineLinkCompositeField;
 
 /**
  * ElementBanner adds a banner
  */
-class ElementBanner extends ElementContent
+class ElementBanner extends BaseElement
 {
     private static $icon = "font-icon-block-banner";
 
@@ -30,6 +31,10 @@ class ElementBanner extends ElementContent
         return _t(__CLASS__ . ".BlockType", "Banner");
     }
 
+    private static $db = [
+        'HTML' => 'HTMLText'
+    ];
+
     private static $has_one = [
         "Image" => Image::class,
         'BannerLink' => Link::class
@@ -46,7 +51,7 @@ class ElementBanner extends ElementContent
     {
         $types = $this->config()->get("allowed_file_types");
         if (empty($types)) {
-            $types = $allowed_file_types;
+            $types = ['jpg', 'jpeg', 'gif', 'png', 'webp'];
         }
         $types = array_unique($types);
         return $types;
@@ -58,6 +63,13 @@ class ElementBanner extends ElementContent
         $this->beforeUpdateCMSFields(function ($fields) {
             $fields->removeByName(['BannerLinkID']);
             $fields->addFieldsToTab("Root.Main", [
+                HTMLEditorField::create(
+                    'HTML',
+                    _t(
+                        __CLASS__ . '.HTML',
+                        'Content'
+                    )
+                ),
                 UploadField::create(
                     "Image",
                     _t(__CLASS__ . ".SLIDE_IMAGE", "Image")
