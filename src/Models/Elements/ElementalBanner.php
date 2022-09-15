@@ -10,43 +10,90 @@ use gorriecoe\Link\Models\Link;
 use NSWDPC\InlineLinker\InlineLinkCompositeField;
 
 /**
- * ElementBanner adds a banner
+ * ElementBanner
+ * A banner content block containing HTML content field, an image and a link
+ * @author Mark
+ * @author James
  */
 class ElementBanner extends BaseElement
 {
+
+    /**
+     * @var string
+     */
     private static $icon = "font-icon-block-banner";
 
+    /**
+     * @var string
+     */
     private static $table_name = "ElementBanner";
 
+    /**
+     * @var string
+     */
     private static $title = "Banner";
+
+    /**
+     * @var string
+     */
     private static $description = "Display an banner";
 
+    /**
+     * @var string
+     */
     private static $singular_name = "Banner";
+
+    /**
+     * @var string
+     */
     private static $plural_name = "Banners";
 
+    /**
+     * @var array
+     */
     private static $allowed_file_types = ["jpg", "jpeg", "gif", "png", "webp"];
 
+    /**
+     * Element block type
+     */
     public function getType()
     {
         return _t(__CLASS__ . ".BlockType", "Banner");
     }
 
+    /**
+     * @var array
+     */
     private static $db = [
         'HTML' => 'HTMLText'
     ];
 
+    /**
+     * @var array
+     */
     private static $has_one = [
         "Image" => Image::class,
-        'BannerLink' => Link::class
+        "BannerLink" => Link::class
     ];
 
+    /**
+     * @var array
+     */
     private static $summary_fields = [
         "Image.CMSThumbnail" => "Image",
         "Title" => "Title",
     ];
 
-    private static $owns = ["Image"];
+    /**
+     * @var array
+     */
+    private static $owns = [
+        "Image"
+    ];
 
+    /**
+     * Return allowed file types for image upload field
+     */
     public function getAllowedFileTypes()
     {
         $types = $this->config()->get("allowed_file_types");
@@ -57,6 +104,9 @@ class ElementBanner extends BaseElement
         return $types;
     }
 
+    /**
+     * Return fields for CMS
+     */
     public function getCMSFields()
     {
 
