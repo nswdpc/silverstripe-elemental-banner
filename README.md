@@ -8,7 +8,9 @@ See composer.json
 
 ## Installation
 
-`composer require nswdpc/silverstripe-elemental-banner`
+```shell
+composer require nswdpc/silverstripe-elemental-banner
+```
 
 ## License
 
