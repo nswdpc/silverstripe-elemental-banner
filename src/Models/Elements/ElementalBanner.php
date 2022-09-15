@@ -36,7 +36,7 @@ class ElementBanner extends BaseElement
     /**
      * @var string
      */
-    private static $description = "Display an banner";
+    private static $description = "Display a banner";
 
     /**
      * @var string
