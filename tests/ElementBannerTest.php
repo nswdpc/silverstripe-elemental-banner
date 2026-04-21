@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace NSWDPC\Elemental\Models\Banner\Tests;
 
 use SilverStripe\Dev\SapphireTest;
@@ -11,7 +13,7 @@ class ElementBannerTest extends SapphireTest
 
     protected $usesDatabase = true;
 
-    public function testAllowedFileTypes()
+    public function testAllowedFileTypes(): void
     {
         $allowed = ["jpg", "jpeg"];
         Config::modify()->set(
