@@ -1,10 +1,10 @@
 <?php
+
 namespace NSWDPC\Elemental\Models\Banner;
 
 use DNADesign\Elemental\Models\BaseElement;
 use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\Assets\Image;
-use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use gorriecoe\Link\Models\Link;
 use NSWDPC\InlineLinker\InlineLinkCompositeField;
@@ -22,7 +22,6 @@ use NSWDPC\InlineLinker\InlineLinkCompositeField;
  */
 class ElementBanner extends BaseElement
 {
-
     private static string $icon = "font-icon-block-banner";
 
     private static string $table_name = "ElementBanner";
@@ -111,7 +110,8 @@ class ElementBanner extends BaseElement
                 InlineLinkCompositeField::create(
                     'BannerLink',
                     _t(
-                        self::class . 'LINK', 'Link'
+                        self::class . 'LINK',
+                        'Link'
                     ),
                     $this->owner
                 ),

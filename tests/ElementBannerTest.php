@@ -10,7 +10,6 @@ use NSWDPC\Elemental\Models\Banner\ElementBanner;
 
 class ElementBannerTest extends SapphireTest
 {
-
     protected $usesDatabase = true;
 
     public function testAllowedFileTypes(): void
@@ -22,7 +21,7 @@ class ElementBannerTest extends SapphireTest
             $allowed
         );
         $element = ElementBanner::create();
-        $this->assertEquals( $allowed, $element->getAllowedFileTypes() );
+        $this->assertEquals($allowed, $element->getAllowedFileTypes());
     }
 
 }
