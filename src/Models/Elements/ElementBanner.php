@@ -28,7 +28,7 @@ class ElementBanner extends BaseElement
 
     private static string $title = "Banner";
 
-    private static string $description = "Display a banner";
+    private static string $class_description = "Display a banner";
 
     private static string $singular_name = "Banner";
 
@@ -72,6 +72,7 @@ class ElementBanner extends BaseElement
         if (empty($types)) {
             $types = ['jpg', 'jpeg', 'gif', 'png', 'webp'];
         }
+
         return array_unique($types);
     }
 
