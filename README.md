@@ -8,7 +8,7 @@ See composer.json
 
 ## Installation
 
-```shell
+```sh
 composer require nswdpc/silverstripe-elemental-banner
 ```
 
@@ -18,7 +18,7 @@ composer require nswdpc/silverstripe-elemental-banner
 
 ## Maintainers
 
--   [dpcdigital@NSWDPC:~$](https://dpc.nsw.gov.au)
+- PD Web Team
 
 ## Bugtracker
 

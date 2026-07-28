@@ -28,13 +28,18 @@ class ElementBanner extends BaseElement
 
     private static string $title = "Banner";
 
-    private static string $description = "Display a banner";
+    private static string $class_description = "Display a banner";
 
     private static string $singular_name = "Banner";
 
     private static string $plural_name = "Banners";
 
     private static array $allowed_file_types = ["jpg", "jpeg", "gif", "png", "webp"];
+
+    /**
+     * This element is not inline editable until linkfield is migrated
+     */
+    private static bool $inline_editable = false;
 
     /**
      * Element block type
@@ -72,6 +77,7 @@ class ElementBanner extends BaseElement
         if (empty($types)) {
             $types = ['jpg', 'jpeg', 'gif', 'png', 'webp'];
         }
+
         return array_unique($types);
     }
 
@@ -113,7 +119,7 @@ class ElementBanner extends BaseElement
                         self::class . 'LINK',
                         'Link'
                     ),
-                    $this->owner
+                    $this
                 ),
 
             ]);
