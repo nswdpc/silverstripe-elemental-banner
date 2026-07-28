@@ -37,6 +37,11 @@ class ElementBanner extends BaseElement
     private static array $allowed_file_types = ["jpg", "jpeg", "gif", "png", "webp"];
 
     /**
+     * This element is not inline editable until linkfield is migrated
+     */
+    private static bool $inline_editable = false;
+
+    /**
      * Element block type
      */
     #[\Override]
