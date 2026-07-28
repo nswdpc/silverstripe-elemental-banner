@@ -119,7 +119,7 @@ class ElementBanner extends BaseElement
                         self::class . 'LINK',
                         'Link'
                     ),
-                    $this->owner
+                    $this
                 ),
 
             ]);
