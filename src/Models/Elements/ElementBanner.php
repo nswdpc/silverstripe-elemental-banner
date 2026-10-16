@@ -7,7 +7,9 @@ use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\Assets\Image;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use gorriecoe\Link\Models\Link;
-use NSWDPC\InlineLinker\InlineLinkCompositeField;
+use gorriecoe\LinkField\LinkField;
+use SilverStripe\LinkField\Models\Link as CoreLink;
+use SilverStripe\LinkField\Form\LinkField as CoreLinkField;
 
 /**
  * ElementBanner
@@ -19,6 +21,7 @@ use NSWDPC\InlineLinker\InlineLinkCompositeField;
  * @property int $BannerLinkID
  * @method \SilverStripe\Assets\Image Image()
  * @method \gorriecoe\Link\Models\Link BannerLink()
+ * @method \SilverStripe\LinkField\Models\Link CoreBannerLink()
  */
 class ElementBanner extends BaseElement
 {
@@ -56,7 +59,8 @@ class ElementBanner extends BaseElement
 
     private static array $has_one = [
         "Image" => Image::class,
-        "BannerLink" => Link::class
+        "BannerLink" => Link::class,
+        "CoreBannerLink" => CoreLink::class
     ];
 
     private static array $summary_fields = [
@@ -65,7 +69,16 @@ class ElementBanner extends BaseElement
     ];
 
     private static array $owns = [
-        "Image"
+        "Image",
+        "CoreBannerLink"
+    ];
+
+    private static array $cascade_deletes = [
+        "CoreBannerLink"
+    ];
+
+    private static array $cascade_duplicates = [
+        "CoreBannerLink"
     ];
 
     /**
@@ -89,7 +102,7 @@ class ElementBanner extends BaseElement
     {
 
         $this->beforeUpdateCMSFields(function ($fields): void {
-            $fields->removeByName(['BannerLinkID']);
+            $fields->removeByName(['CoreBannerLink', 'BannerLink', 'BannerLinkID']);
             $fields->addFieldsToTab("Root.Main", [
                 HTMLEditorField::create(
                     'HTML',
@@ -113,17 +126,46 @@ class ElementBanner extends BaseElement
                         ]
                     )
                 ),
-                InlineLinkCompositeField::create(
-                    'BannerLink',
-                    _t(
-                        self::class . 'LINK',
-                        'Link'
-                    ),
-                    $this
-                ),
-
+                $this->getLinkField()
             ]);
         });
         return parent::getCMSFields();
+    }
+
+    /**
+     * Return the field used to render the link
+     * based on migration state
+     */
+    protected function getLinkField(): CoreLinkField|LinkField
+    {
+        $link = $this->getDerivedBannerLink();
+        if ($link instanceof CoreLink) {
+            return CoreLinkField::create('CoreBannerLink', _t(self::class . 'LINK', 'Link'));
+        }
+
+        return LinkField::create('BannerLink', _t(self::class . 'LINK', 'Link'), $this);
+    }
+
+    /**
+     * Template method
+     */
+    public function DerivedBannerLink(): CoreLink|Link
+    {
+        return $this->getDerivedBannerLink();
+    }
+
+    /**
+     * Returns the relevant link based on migration status
+     */
+    public function getDerivedBannerLink(): CoreLink|Link
+    {
+        $coreLink = $this->CoreBannerLink();
+        /** @var Link $legacyLink */
+        $legacyLink = $this->getComponent('BannerLink');
+        if ($coreLink->isInDB() || !$legacyLink->isInDB()) {
+            return $coreLink;
+        }
+
+        return $legacyLink;
     }
 }
