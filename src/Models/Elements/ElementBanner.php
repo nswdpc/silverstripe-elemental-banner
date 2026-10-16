@@ -22,6 +22,7 @@ use SilverStripe\LinkField\Form\LinkField as CoreLinkField;
  * @method \SilverStripe\Assets\Image Image()
  * @method \gorriecoe\Link\Models\Link BannerLink()
  * @method \SilverStripe\LinkField\Models\Link CoreBannerLink()
+ * @property int $CoreBannerLinkID
  */
 class ElementBanner extends BaseElement
 {
