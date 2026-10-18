@@ -1,4 +1,4 @@
-<div class="banner" style="background-image: url({$Image.URL})">
+<div class="banner" style="background-image: url('{$Image.URL}')">
     <h2>{$Title}</h2>
     {$HTML}
     <% with $DerivedBannerLink %>
