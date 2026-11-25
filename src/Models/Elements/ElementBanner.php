@@ -6,8 +6,6 @@ use DNADesign\Elemental\Models\BaseElement;
 use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\Assets\Image;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
-use gorriecoe\Link\Models\Link;
-use gorriecoe\LinkField\LinkField;
 use SilverStripe\LinkField\Models\Link as CoreLink;
 use SilverStripe\LinkField\Form\LinkField as CoreLinkField;
 
@@ -18,9 +16,7 @@ use SilverStripe\LinkField\Form\LinkField as CoreLinkField;
  * @author James
  * @property ?string $HTML
  * @property int $ImageID
- * @property int $BannerLinkID
  * @method \SilverStripe\Assets\Image Image()
- * @method \gorriecoe\Link\Models\Link BannerLink()
  * @method \SilverStripe\LinkField\Models\Link CoreBannerLink()
  * @property int $CoreBannerLinkID
  */
@@ -60,7 +56,6 @@ class ElementBanner extends BaseElement
 
     private static array $has_one = [
         "Image" => Image::class,
-        "BannerLink" => Link::class,
         "CoreBannerLink" => CoreLink::class
     ];
 
@@ -103,7 +98,7 @@ class ElementBanner extends BaseElement
     {
 
         $this->beforeUpdateCMSFields(function ($fields): void {
-            $fields->removeByName(['CoreBannerLink', 'BannerLink', 'BannerLinkID']);
+            $fields->removeByName(['CoreBannerLink']);
             $fields->addFieldsToTab("Root.Main", [
                 HTMLEditorField::create(
                     'HTML',
@@ -137,20 +132,15 @@ class ElementBanner extends BaseElement
      * Return the field used to render the link
      * based on migration state
      */
-    protected function getLinkField(): CoreLinkField|LinkField
+    protected function getLinkField(): CoreLinkField
     {
-        $link = $this->getDerivedBannerLink();
-        if ($link instanceof CoreLink) {
-            return CoreLinkField::create('CoreBannerLink', _t(self::class . 'LINK', 'Link'));
-        }
-
-        return LinkField::create('BannerLink', _t(self::class . 'LINK', 'Link'), $this);
+        return CoreLinkField::create('CoreBannerLink', _t(self::class . 'LINK', 'Link'));
     }
 
     /**
      * Template method
      */
-    public function DerivedBannerLink(): CoreLink|Link
+    public function DerivedBannerLink(): CoreLink
     {
         return $this->getDerivedBannerLink();
     }
@@ -158,15 +148,25 @@ class ElementBanner extends BaseElement
     /**
      * Returns the relevant link based on migration status
      */
-    public function getDerivedBannerLink(): CoreLink|Link
+    public function getDerivedBannerLink(): CoreLink
     {
-        $coreLink = $this->CoreBannerLink();
-        /** @var Link $legacyLink */
-        $legacyLink = $this->getComponent('BannerLink');
-        if ($coreLink->isInDB() || !$legacyLink->isInDB()) {
-            return $coreLink;
-        }
-
-        return $legacyLink;
+        return $this->CoreBannerLink();
     }
+
+    /**
+     * Provide backwards compatible method for 2.x
+     */
+    public function BannerLink(): CoreLink
+    {
+        return $this->getBannerLink();
+    }
+
+    /**
+     * Provide backwards compatible method for 2.x
+     */
+    public function getBannerLink(): CoreLink
+    {
+        return $this->getDerivedBannerLink();
+    }
+
 }
