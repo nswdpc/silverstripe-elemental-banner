@@ -2,6 +2,6 @@
     <h2>{$Title}</h2>
     {$HTML}
     <% with $DerivedBannerLink %>
-        <p><a href="{$LinkURL}">{$Title}</a></p>
+        <p><a href="{$URL}" rel="noopener noreferrer"<% if $OpenInNew %> target="_blank"<% end_if %>>{$Title}</a></p>
     <% end_with %>
 </div>
