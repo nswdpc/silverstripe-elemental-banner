@@ -140,7 +140,7 @@ class ElementBanner extends BaseElement
     /**
      * Template method
      */
-    public function DerivedBannerLink(): CoreLink
+    public function DerivedBannerLink(): ?CoreLink
     {
         return $this->getDerivedBannerLink();
     }
@@ -148,7 +148,7 @@ class ElementBanner extends BaseElement
     /**
      * Returns the relevant link based on migration status
      */
-    public function getDerivedBannerLink(): CoreLink
+    public function getDerivedBannerLink(): ?CoreLink
     {
         return $this->CoreBannerLink();
     }
@@ -156,7 +156,7 @@ class ElementBanner extends BaseElement
     /**
      * Provide backwards compatible method for 2.x
      */
-    public function BannerLink(): CoreLink
+    public function BannerLink(): ?CoreLink
     {
         return $this->getBannerLink();
     }
@@ -164,7 +164,7 @@ class ElementBanner extends BaseElement
     /**
      * Provide backwards compatible method for 2.x
      */
-    public function getBannerLink(): CoreLink
+    public function getBannerLink(): ?CoreLink
     {
         return $this->getDerivedBannerLink();
     }
